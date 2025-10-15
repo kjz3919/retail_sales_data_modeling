@@ -26,8 +26,8 @@ cleaned AS (
         location,
         transaction_date,
         CASE
-            WHEN (quantity IS NOT NULL AND price_per_unit IS NOT NULL) AND quantity * price_per_unit > total_spent THEN 'True'
-            ELSE 'False'
+            WHEN (quantity IS NOT NULL AND price_per_unit IS NOT NULL) AND quantity * price_per_unit > total_spent THEN 'Yes'
+            ELSE 'No'
         END AS discount_applied
     FROM source
     WHERE {{ get_item_by_price('price_per_unit') }} <> 00
