@@ -1,14 +1,14 @@
--- Declaring the source of raw data
-
+-- Staging model of raw data
 WITH source as (
     SELECT * 
-    FROM {{ source ('raw', 'raw_sales') }}
-    WHERE NOT (
-        total_spent IS NULL
-        AND quantity IS NULL
-        AND item IS NULL
-    )
-);
+    FROM {{ source('raw', 'raw_sales') }}
+    WHERE
+        (
+        (CASE WHEN total_spent IS NULL THEN 1 ELSE 0 END) +
+        (CASE WHEN quantity IS NULL THEN 1 ELSE 0 END) +
+        (CASE WHEN item IS NULL THEN 1 ELSE 0 END)
+    ) <= 1
+),
 
 cleaned AS (
     SELECT
@@ -18,7 +18,7 @@ cleaned AS (
         item, -- do wyczyszczenia
         price_per_unit -- do wyczyszczenia
         quantity,
-        total_spent, -- do wyczyszczenia
+        total_spent,
         payment_method,
         location,
         transaction_date,
@@ -26,7 +26,7 @@ cleaned AS (
             WHEN (quantity IS NOT NULL AND price_per_unit IS NOT NULL) AND quantity * price_per_unit > total_spent THEN 'True'
             ELSE 'False'
         END AS discount_applied_cleaned
-    FROM source;
+    FROM source
 )
 
 SELECT * FROM cleaned;
