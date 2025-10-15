@@ -1,4 +1,4 @@
-{%macro get_item_by_price(price) %}
+{% macro get_item_by_price(price) %}
     case
         when {{ price }} = 5.00 then 1
         when {{ price }} = 7.00 then 2
@@ -25,6 +25,6 @@
         when {{ price }} = 38.00 then 23
         when {{ price }} = 40.00 then 24
         when {{ price }} = 41.00 then 25
-        else 'Unknown'
+        else 00
     end
-{%endmacro}
+{% endmacro %}

@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_sales
+    description: Staging model for raw sales data
+    columns:
+      - name: transaction_id
+        description: Cleaned transaction_id column
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Cleaned customer_id column
+        tests:
+          - not_null
+          - unique
+      - name: item_id
+        description: Cleaned item_id made from ITEM column from raw_sales table
+        tests:
+          - not_null
+      - name: category
+        description: Category of the item
+        tests:
+          - not_null
+      - name: price_per_unit
+        description: Price of a single item
+        tests:
+          - not_null
+      - name: quantity
+        description: Amount of items in the transaction
+        tests:
+          - not_null
+      - name: total_spent
+        description: The total amount of money spent in the transaction
+        tests:
+          - not_null
+      - name: location
+        description: The location of the transaction
+        tests:
+          - not_null
+      - name: transaction_date
+        description: The date of the transaction
+        tests:
+          - not_null
+      - name: discount_applied
+        description: The column describing if the customer was using the discount during the transaction
+        tests:
+          - not_null
