@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_item
+    description: Staging model of Item dimension
+    columns:
+      - name: item_key
+        description: A unique surrogate key for item
+        tests:
+          - not_null
+          - unique
+      - name: item_id
+        description: An ID of an item in the transaction received from the source system
+        tests:
+          - not_null
+      - name: category
+        description: The name of the category of the item sold
+        tests:
+          - not_null

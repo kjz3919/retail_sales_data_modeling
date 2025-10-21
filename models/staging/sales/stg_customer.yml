@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_customer
+    description: Staging model for raw sales data
+    columns:
+      - name: customer_key
+        description: A surrogate key for customer dimension
+        tests:
+          - unique
+          - not_null
+          
+      - name: customer_id
+        description: Unique identifier for customer
+        tests:
+          - not_null
+      
+      - name: payment_method
+        description: A payment method used for the transaction
+        tests:
+          - not_null
+      
+      - name: location
+        description: Location of the transaction
+        tests:
+          - not_null
+      
+      - name: discount_applied
+        description: Information whether the discount was applied on the transaction or not
+        tests:
+          - not_null

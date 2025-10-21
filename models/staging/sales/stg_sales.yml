@@ -9,19 +9,27 @@ models:
         tests:
           - not_null
           - unique
-      - name: customer_id
+      - name: customer_key
         description: Cleaned customer_id column
         tests:
           - not_null
-          - unique
-      - name: item_id
-        description: Cleaned item_id made from ITEM column from raw_sales table
+          - relationships:
+              to: ref('stg_customer')
+              field: customer_id
+      - name: item_key
+        description: A surrogate key for items
         tests:
           - not_null
-      - name: category
-        description: Category of the item
+          - relationships:
+              to: ref('stg_item')
+              field: item_key
+      - name: date_key
+        description: A surrogate key for dates
         tests:
           - not_null
+          - relationships:
+              to: ref('stg_date')
+              field: date_key
       - name: price_per_unit
         description: Price of a single item
         tests:
@@ -34,15 +42,4 @@ models:
         description: The total amount of money spent in the transaction
         tests:
           - not_null
-      - name: location
-        description: The location of the transaction
-        tests:
-          - not_null
-      - name: transaction_date
-        description: The date of the transaction
-        tests:
-          - not_null
-      - name: discount_applied
-        description: The column describing if the customer was using the discount during the transaction
-        tests:
-          - not_null
+      

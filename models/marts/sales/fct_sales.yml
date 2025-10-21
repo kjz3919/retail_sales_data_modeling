@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: fct_sales
+    description: A fact table containing all measurements of business events (transactions)
+    columns:
+      - name: transaction_id
+        description: "Unique identifier of transactions"
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_key
+        description: A foreign key to Customer dimension
+        tests:
+          - not_null
+          - relationship:
+              to: ref('dim_customer')
+              field: customer_key
+
+      - name: item_key
+        description: A foreign key to Item dimension
+        tests:
+          - not_null
+          - relationship:
+              to: ref('dim_item')
+              field: item_key
+
+      - name: date_key
+        description: A foreign key to Date dimension
+        tests:
+          - not_null
+          - relationship:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: price_per_unit
+        description: A measurement of price per item in transaction
+        tests:
+          - not_null
+
+      - name: quantity
+        description: A measurement of the amount of items bought in transaction
+        tests:
+          - not_null
+
+      - name: total_spent
+        description: A measurement of the amount of money spent in the transaction
+        tests:
+          - not_null

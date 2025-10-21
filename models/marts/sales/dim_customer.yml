@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: A customer dimension of the model
+    columns:
+      - name: customer_key
+        description: A unique key for each customer
+        tests:
+          - not_null
+          - unique
+      
+      - name: customer_id
+        description: An identifier of customer provided by source system
+        tests:
+          - not_null
+          - unique
+      
+      - name: payment_method
+        description: A payment method used for the transaction
+        tests:
+          - not_null
+      
+      - name: location
+        description: Location of the transaction
+        tests:
+          - not_null
+      
+      - name: discount_applied
+        description: Information whether the discount was applied on the transaction or - not_null
+        tests:
+          - not_null
