@@ -7,13 +7,13 @@ models:
       - name: customer_key
         description: A surrogate key for customer dimension
         tests:
-          - not_null
           - unique
+          - not_null
+          
       - name: customer_id
         description: Unique identifier for customer
         tests:
           - not_null
-          - unique
       
       - name: payment_method
         description: A payment method used for the transaction

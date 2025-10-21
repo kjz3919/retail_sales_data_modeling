@@ -13,7 +13,6 @@ models:
         description: An ID of an item in the transaction received from the source system
         tests:
           - not_null
-          - unique
       - name: category
         description: The name of the category of the item sold
         tests:

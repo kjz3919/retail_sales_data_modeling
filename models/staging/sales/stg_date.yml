@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_date
+    description: Staging model for raw sales data
+    columns:
+      - name: date_key
+        description: Date key for Date dimension
+        tests:
+          - not_null
+          - unique
+      - name: transaction_date
+        description: The date of the transaction
+        tests:
+          - not_null
+      - name: day_of_month
+        description: The day of the month of the transaction
+        tests:
+          - not_null
+      - name: month
+        description: Month of the transaction
+        tests:
+          - not_null
+      - name: quarter
+        description: The quarter of the transaction
+        tests:
+          - not_null
+      - name: year
+        description: The year of the transaction
