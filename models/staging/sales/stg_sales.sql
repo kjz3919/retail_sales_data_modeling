@@ -17,7 +17,7 @@ WITH source as (
             WHEN (quantity IS NOT NULL AND price_per_unit IS NOT NULL) AND quantity * price_per_unit > total_spent THEN 'Yes'
             ELSE 'No'
         END AS discount_applied
-    FROM {{ source('raw', 'raw_sales') }}
+    FROM {{ ref('stg_raw_sales') }}
     WHERE
     (
         (CASE WHEN total_spent IS NULL THEN 1 ELSE 0 END) +
@@ -30,7 +30,7 @@ WITH source as (
 
 cleaned AS (
     SELECT
-        f.transaction_id_fixed AS transaction_id,
+        CAST(TRIM(transaction_id_fixed) AS VARCHAR) AS transaction_id,
         c.customer_key,
         i.item_key,
         d.date_key,
