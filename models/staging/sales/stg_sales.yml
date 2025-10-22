@@ -15,7 +15,7 @@ models:
           - not_null
           - relationships:
               to: ref('stg_customer')
-              field: customer_id
+              field: customer_key
       - name: item_key
         description: A surrogate key for items
         tests:
@@ -30,6 +30,20 @@ models:
           - relationships:
               to: ref('stg_date')
               field: date_key
+      - name: payment_method_key
+        description: A surrogate key for payment methods
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_payment_method')
+              field: payment_method_key
+      - name: location_key
+        description: A surrogate key for locations
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_location')
+              field: location_key
       - name: price_per_unit
         description: Price of a single item
         tests:
@@ -40,6 +54,10 @@ models:
           - not_null
       - name: total_spent
         description: The total amount of money spent in the transaction
+        tests:
+          - not_null
+      - name: discount_applied
+        description: Information if the discount was applied on the transaction
         tests:
           - not_null
       

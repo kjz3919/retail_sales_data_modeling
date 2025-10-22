@@ -34,14 +34,18 @@ cleaned AS (
         c.customer_key,
         i.item_key,
         d.date_key,
+        pm.payment_method_key,
+        l.location_key,
         f.price_per_unit_fixed AS price_per_unit,
         f.quantity,
-        f.total_spent
+        f.total_spent,
+        f.discount_applied
     FROM source f
     JOIN {{ ref('stg_customer') }} c ON f.customer_id_fixed = c.customer_id
     JOIN {{ ref('stg_item') }} i ON f.item_id_fixed = i.item_id
     JOIN {{ ref('stg_date') }} d ON f.transaction_date = d.transaction_date
-    WHERE f.item_id_fixed <> 00 
+    JOIN {{ ref('stg_payment_method')}} pm ON f.payment_method = pm.payment_method
+    JOIN {{ ref('stg_location')}} l ON f.location = l.location
 )
 
 SELECT * FROM cleaned

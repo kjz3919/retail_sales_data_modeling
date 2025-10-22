@@ -33,12 +33,12 @@ unique_dates AS (
 
 cleaned AS (
     SELECT 
-        ROW_NUMBER() OVER (order by transaction_date) AS date_key,
-        transaction_date,
+        ROW_NUMBER() OVER (ORDER BY transaction_date) AS date_key,
+        transaction_date, 
         EXTRACT(day FROM transaction_date) AS day_of_month,
         {{ numbers_to_months('transaction_date') }} AS month,
         {{ map_quarter('transaction_date') }} AS quarter,
-        SUBSTRING(transaction_date, 1, 4) AS year
+        SUBSTRING(CAST(transaction_date AS TEXT), 1, 4) AS year
     FROM unique_dates
 
 )

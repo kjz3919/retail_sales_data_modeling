@@ -26,20 +26,21 @@ WITH source as (
         (CASE WHEN item IS NULL THEN 1 ELSE 0 END)
     ) <= 1
     AND transaction_date IS NOT NULL
+    
 ),
+
+unique_customers AS (
+    SELECT DISTINCT customer_id_fixed as customer_id
+    FROM source
+    WHERE customer_id_fixed IS NOT NULL
+),   
 
 cleaned AS (
     SELECT
-        md5(cast(ROW_NUMBER() OVER (ORDER BY customer_id_fixed) as text)) as customer_key,
-        customer_id_fixed as customer_id,
-        payment_method,
-        location,
-        CASE
-            WHEN (quantity IS NOT NULL AND price_per_unit_fixed IS NOT NULL) AND quantity * price_per_unit_fixed > total_spent THEN 'Yes'
-            ELSE 'No'
-        END AS discount_applied
-    FROM source
-    WHERE item_id_fixed <> 00
+        md5(customer_id) as customer_key,
+        customer_id as customer_id,
+    FROM unique_customers
+    
 )
 
 SELECT * FROM cleaned

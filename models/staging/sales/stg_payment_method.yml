@@ -1,18 +1,17 @@
 version: 2
 
 models:
-  - name: stg_customer
+  - name: stg_payment_method
     description: Staging model for raw sales data
     columns:
-      - name: customer_key
+      - name: payment_method_key
         description: A surrogate key for customer dimension
         tests:
           - unique
           - not_null
           
-      - name: customer_id
+      - name: payment_method
         description: Unique identifier for customer
         tests:
           - unique
           - not_null
-      

@@ -1,15 +1,13 @@
--- Staging model for Item dimension
-
 WITH source as (
     SELECT DISTINCT
         SUBSTRING(transaction_id, 5, 100) as transaction_id_fixed,
         SUBSTRING(customer_id, 6, 100) as customer_id_fixed,
+        category,
         CASE
           WHEN price_per_unit IS NULL THEN ROUND(total_spent / quantity, 2)
           ELSE price_per_unit
         END AS price_per_unit_fixed,
         {{ get_item_by_price('price_per_unit_fixed') }} as item_id_fixed,
-        category,
         quantity,
         total_spent,
         payment_method,
@@ -26,20 +24,18 @@ WITH source as (
         (CASE WHEN quantity IS NULL THEN 1 ELSE 0 END) +
         (CASE WHEN item IS NULL THEN 1 ELSE 0 END)
     ) <= 1
-    AND transaction_date IS NOT NULL
 ),
 
-unique_items AS (
-    SELECT DISTINCT item_id_fixed as item_id,
-    FROM source
-    WHERE item_id_fixed <> 00
+unique_categories AS (
+    SELECT distinct category FROM source
+    WHERE category IS NOT NULL
 ),
 
 cleaned AS (
-    SELECT 
-        md5(item_id) AS item_key,
-        item_id,
-    FROM unique_items
+    SELECT
+        ROW_NUMBER() OVER (ORDER BY category) AS category_key,
+        category
+    FROM unique_categories
 )
 
 SELECT * FROM cleaned
